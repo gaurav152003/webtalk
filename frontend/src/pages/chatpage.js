@@ -1,20 +1,28 @@
 import { Box } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Chatbox from "../components/Chatbox";
 import MyChats from "../components/MyChats";
 import SideDrawer from "../components/miscellaneous/SideDrawer";
 import { ChatState } from "../context/ChatProvider";
 
 const Chatpage = () => {
-  const [fetchAgain, setFetchAgain] = useState(false);
   const { user } = ChatState();
 
   useEffect(() => {
-    // Trigger a refresh when the user state changes (like after login)
     if (user) {
-      setFetchAgain((prev) => !prev);  // Use functional update to toggle fetchAgain
+      const refreshed = sessionStorage.getItem("pageRefreshed");
+      if (!refreshed) {
+        sessionStorage.setItem("pageRefreshed", "true");
+        setTimeout(() => {
+          window.location.reload();
+        }, 100);
+      }
     }
-  }, [user]); // Only depend on user
+  }, [user]);
+
+  useEffect(() => {
+    return () => sessionStorage.removeItem("pageRefreshed");
+  }, []);
 
   return (
     <div style={{ width: "100%" }}>
@@ -26,10 +34,8 @@ const Chatpage = () => {
         height="91.5vh"
         padding="10px"
       >
-        {user && <MyChats fetchAgain={fetchAgain} />}
-        {user && (
-          <Chatbox fetchAgain={fetchAgain} setFetchAgain={setFetchAgain} />
-        )}
+        {user && <MyChats />}
+        {user && <Chatbox />}
       </Box>
     </div>
   );

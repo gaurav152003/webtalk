@@ -6,6 +6,7 @@ import { useToast } from "@chakra-ui/toast";
 import axios from "axios";
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
@@ -13,10 +14,10 @@ const Signup = () => {
   const toast = useToast();
   const history = useHistory();
 
-  const [name, setName] = useState();
-  const [email, setEmail] = useState();
-  const [confirmpassword, setConfirmpassword] = useState();
-  const [password, setPassword] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [confirmpassword, setConfirmpassword] = useState("");
+  const [password, setPassword] = useState("");
   const [pic, setPic] = useState();
   const [picLoading, setPicLoading] = useState(false);
 
@@ -24,7 +25,7 @@ const Signup = () => {
     setPicLoading(true);
     if (!name || !email || !password || !confirmpassword) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Please fill all the fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -35,15 +36,15 @@ const Signup = () => {
     }
     if (password !== confirmpassword) {
       toast({
-        title: "Passwords Do Not Match",
+        title: "Passwords do not match",
         status: "warning",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
+      setPicLoading(false);
       return;
     }
-    console.log(name, email, password, pic);
     try {
       const config = {
         headers: {
@@ -60,7 +61,6 @@ const Signup = () => {
         },
         config
       );
-      console.log(data);
       toast({
         title: "Registration Successful",
         status: "success",
@@ -68,12 +68,13 @@ const Signup = () => {
         isClosable: true,
         position: "bottom",
       });
+      window.location.reload()
       localStorage.setItem("userInfo", JSON.stringify(data));
       setPicLoading(false);
       history.push("/chats");
     } catch (error) {
       toast({
-        title: "Error Occured!",
+        title: "Error Occurred!",
         description: error.response.data.message,
         status: "error",
         duration: 5000,
@@ -88,15 +89,15 @@ const Signup = () => {
     setPicLoading(true);
     if (pics === undefined) {
       toast({
-        title: "Please Select an Image!",
+        title: "Please select an image!",
         status: "warning",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
+      setPicLoading(false);
       return;
     }
-    console.log(pics);
     if (pics.type === "image/jpeg" || pics.type === "image/png") {
       const data = new FormData();
       data.append("file", pics);
@@ -109,7 +110,6 @@ const Signup = () => {
         .then((res) => res.json())
         .then((data) => {
           setPic(data.url.toString());
-          console.log(data.url.toString());
           setPicLoading(false);
         })
         .catch((err) => {
@@ -118,79 +118,128 @@ const Signup = () => {
         });
     } else {
       toast({
-        title: "Please Select an Image!",
+        title: "Please select an image!",
         status: "warning",
         duration: 5000,
         isClosable: true,
         position: "bottom",
       });
       setPicLoading(false);
-      return;
     }
   };
 
   return (
-    <VStack spacing="5px">
+    <VStack spacing="15px">
       <FormControl id="first-name" isRequired>
-        <FormLabel>Name</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Name
+        </FormLabel>
         <Input
           placeholder="Enter Your Name"
+          fontFamily="'Segoe UI', sans-serif"
+          fontSize="sm"
+          borderRadius="md"
+          borderColor="gray.400"
+          _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+          _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
           onChange={(e) => setName(e.target.value)}
         />
       </FormControl>
+
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Email Address
+        </FormLabel>
         <Input
           type="email"
           placeholder="Enter Your Email Address"
+          fontFamily="'Segoe UI', sans-serif"
+          fontSize="sm"
+          borderRadius="md"
+          borderColor="gray.400"
+          _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+          _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
+
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Password
+        </FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
             placeholder="Enter Password"
+            fontFamily="'Segoe UI', sans-serif"
+            fontSize="sm"
+            borderRadius="md"
+            borderColor="gray.400"
+            _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+            _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
             onChange={(e) => setPassword(e.target.value)}
           />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
+          <InputRightElement width="3rem" cursor="pointer">
+            {show ? (
+              <AiFillEyeInvisible onClick={handleClick} />
+            ) : (
+              <AiFillEye onClick={handleClick} />
+            )}
           </InputRightElement>
         </InputGroup>
       </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel>Confirm Password</FormLabel>
+
+      <FormControl id="confirm-password" isRequired>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Confirm Password
+        </FormLabel>
         <InputGroup size="md">
           <Input
             type={show ? "text" : "password"}
-            placeholder="Confirm password"
+            placeholder="Confirm Password"
+            fontFamily="'Segoe UI', sans-serif"
+            fontSize="sm"
+            borderRadius="md"
+            borderColor="gray.400"
+            _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+            _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
             onChange={(e) => setConfirmpassword(e.target.value)}
           />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
+          <InputRightElement width="3rem" cursor="pointer">
+            {show ? (
+              <AiFillEyeInvisible onClick={handleClick} />
+            ) : (
+              <AiFillEye onClick={handleClick} />
+            )}
           </InputRightElement>
         </InputGroup>
       </FormControl>
+
       <FormControl id="pic">
-        <FormLabel>Upload your Picture</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Upload your Picture
+        </FormLabel>
         <Input
           type="file"
           p={1.5}
           accept="image/*"
+          fontFamily="'Segoe UI', sans-serif"
+          fontSize="sm"
+          borderRadius="md"
+          borderColor="gray.400"
+          _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
           onChange={(e) => postDetails(e.target.files[0])}
         />
       </FormControl>
+
       <Button
         colorScheme="blue"
         width="100%"
-        style={{ marginTop: 15 }}
+        mt={2}
         onClick={submitHandler}
         isLoading={picLoading}
+        fontFamily="'Segoe UI', sans-serif"
+        fontWeight="medium"
       >
         Sign Up
       </Button>

@@ -6,24 +6,23 @@ import { useState } from "react";
 import axios from "axios";
 import { useToast } from "@chakra-ui/react";
 import { useHistory } from "react-router-dom";
-
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
   const history = useHistory();
- 
 
   const submitHandler = async () => {
     setLoading(true);
     if (!email || !password) {
       toast({
-        title: "Please Fill all the Feilds",
+        title: "Please fill all the fields",
         status: "warning",
         duration: 5000,
         isClosable: true,
@@ -53,14 +52,15 @@ const Login = () => {
         isClosable: true,
         position: "bottom",
       });
-      
+      window.location.reload()
+
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       history.push("/chats");
     } catch (error) {
       toast({
-        title: "Error Occured!",
-        description: error.response.data.message,
+        title: "Error Occurred!",
+        description: error.response?.data?.message || error.message,
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -71,41 +71,64 @@ const Login = () => {
   };
 
   return (
-    <VStack spacing="10px">
+    <VStack spacing="20px">
       <FormControl id="email" isRequired>
-        <FormLabel>Email Address</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Email Address
+        </FormLabel>
         <Input
           value={email}
           type="email"
           placeholder="Enter Your Email Address"
+          fontFamily="'Segoe UI', sans-serif"
+          fontSize="sm"
+          borderRadius="md"
+          borderColor="gray.400"
+          _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+          _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
           onChange={(e) => setEmail(e.target.value)}
         />
       </FormControl>
+
       <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
+        <FormLabel fontFamily="'Segoe UI', sans-serif" fontSize="md" fontWeight="semibold">
+          Password
+        </FormLabel>
         <InputGroup size="md">
           <Input
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             type={show ? "text" : "password"}
             placeholder="Enter password"
+            fontFamily="'Segoe UI', sans-serif"
+            fontSize="sm"
+            borderRadius="md"
+            borderColor="gray.400"
+            _placeholder={{ color: "gray.500", fontStyle: "italic" }}
+            _focus={{ borderColor: "blue.500", boxShadow: "0 0 0 1px blue.500" }}
           />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
+          <InputRightElement width="3rem" cursor="pointer">
+            {show ? (
+              <AiFillEyeInvisible onClick={handleClick} />
+            ) : (
+              <AiFillEye onClick={handleClick} />
+            )}
           </InputRightElement>
         </InputGroup>
       </FormControl>
+
       <Button
         colorScheme="blue"
         width="100%"
-        style={{ marginTop: 15 }}
+        mt={2}
         onClick={submitHandler}
         isLoading={loading}
+        fontFamily="'Segoe UI', sans-serif"
+        fontWeight="medium"
       >
         Login
       </Button>
+
       <Button
         variant="solid"
         colorScheme="red"
@@ -114,6 +137,8 @@ const Login = () => {
           setEmail("guest@gmail.com");
           setPassword("123456");
         }}
+        fontFamily="'Segoe UI', sans-serif"
+        fontWeight="medium"
       >
         Guest User
       </Button>
