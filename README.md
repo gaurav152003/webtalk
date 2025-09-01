@@ -30,7 +30,7 @@ The app allows seamless one-on-one and group chats, with features like notificat
 
 ## 📸 Screenshots
 
-![image alt]([Screenshot 2025-05-20 001823.png](https://github.com/gaurav152003/webtalk/blob/master/Screenshot%202025-05-20%20001823.png))
+![image alt](https://github.com/gaurav152003/webtalk/blob/master/Screenshot%202025-05-20%20001823.png)
 ---
 ![image alt](https://github.com/gaurav152003/chatapp/blob/240a2cf34dc1f96cf8cafd1da6b179f0d5a11e8e/Screenshot%202025-05-20%20001834.png)
 ---
