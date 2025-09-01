@@ -32,9 +32,9 @@ The app allows seamless one-on-one and group chats, with features like notificat
 
 ![image alt](https://github.com/gaurav152003/webtalk/blob/master/Screenshot%202025-05-20%20001823.png)
 ---
-![image alt](https://github.com/gaurav152003/chatapp/blob/240a2cf34dc1f96cf8cafd1da6b179f0d5a11e8e/Screenshot%202025-05-20%20001834.png)
+![image alt](https://github.com/gaurav152003/webtalk/blob/master/Screenshot%202025-05-20%20001834.png)
 ---
-![image alt](https://github.com/gaurav152003/chatapp/blob/983f6bc5552d902606186e2db47a267e09ddf077/Screenshot%202025-05-20%20002347.png)
+![image alt](https://github.com/gaurav152003/webtalk/blob/master/Screenshot%202025-05-20%20002347.png)
 ---
 ![image alt](https://github.com/gaurav152003/chatapp/blob/3b2d2f8d72b2c7d1de46323775b361c2009453aa/Screenshot%202025-05-20%20002423.png)
 ---
